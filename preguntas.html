@@ -9,7 +9,34 @@
 <body>
 
     <div class="container">
+
+        <!-- Barra superior -->
+        <div class="top-bar">
+            <div id="cronometro">⏰ 00:00</div>
+
+            <button id="home-btn" onclick="abrirModal()">🏠</button>
+        </div>
+
+        <!-- Ventana emergente -->
+        <div id="modal-home" class="modal">
+            <div class="modal-content">
+                <h2>¿Quieres salir del Escape Room?</h2>
+                <p>Puedes seguir jugando o volver al inicio.</p>
+
+                <div class="modal-buttons">
+                    <button onclick="cerrarModal()" class="seguir">
+                        Seguir
+                    </button>
+
+                    <button onclick="reiniciarJuego()" class="inicio">
+                        Volver al inicio
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <h1>🌍 Guardianes del Planeta 🌱</h1>
+
         <p class="intro">
             Resuelve los desafíos sobre medio ambiente y tecnología para salvar el planeta.
         </p>
@@ -90,6 +117,43 @@ const preguntas = [
 let indice = 0;
 let puntos = 0;
 
+/* CRONÓMETRO */
+
+let segundos = 0;
+let minutos = 0;
+
+function actualizarCronometro() {
+    segundos++;
+
+    if (segundos === 60) {
+        segundos = 0;
+        minutos++;
+    }
+
+    let min = minutos < 10 ? "0" + minutos : minutos;
+    let seg = segundos < 10 ? "0" + segundos : segundos;
+
+    document.getElementById("cronometro").innerText = "⏰ " + min + ":" + seg;
+}
+
+setInterval(actualizarCronometro, 1000);
+
+/* MODAL */
+
+function abrirModal() {
+    document.getElementById("modal-home").style.display = "flex";
+}
+
+function cerrarModal() {
+    document.getElementById("modal-home").style.display = "none";
+}
+
+function reiniciarJuego() {
+    window.location.href = "index.html";
+}
+
+/* PREGUNTAS */
+
 function cargarPregunta() {
     document.getElementById("pregunta").innerText = preguntas[indice].pregunta;
 
@@ -137,18 +201,14 @@ function siguientePregunta() {
             Tu puntuación fue: <strong>${puntos} / ${preguntas.length}</strong>
             <br><br>
             <button onclick="reiniciarJuego()" id="reiniciar">
-                 Volver al inicio
+                Volver al inicio
             </button>
         `;
     }
 }
 
-function reiniciarJuego() {
-    window.location.href = "index.html";
-}
-
 cargarPregunta();
-</script>
+    </script>
 
 </body>
 </html>
