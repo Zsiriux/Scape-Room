@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardianes del Planeta - Escape Room Digital</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>🌍 Guardianes del Planeta 🌱</h1>
+        <p class="intro">
+            Resuelve los desafíos sobre medio ambiente y tecnología para salvar el planeta.
+        </p>
+
+        <div class="quiz-box">
+            <h2 id="pregunta">Pregunta aquí</h2>
+
+            <div id="opciones">
+                <button onclick="verificarRespuesta(0)"></button>
+                <button onclick="verificarRespuesta(1)"></button>
+                <button onclick="verificarRespuesta(2)"></button>
+            </div>
+
+            <p id="resultado"></p>
+
+            <button id="siguiente" onclick="siguientePregunta()" style="display: none;">
+                Siguiente ➜
+            </button>
+        </div>
+
+        <p id="final"></p>
+    </div>
+
+    <script>
+const preguntas = [
+    {
+        pregunta: "¿Qué material tarda más en degradarse?",
+        opciones: ["Papel", "Plástico", "Cáscara de fruta"],
+        correcta: 1
+    },
+    {
+        pregunta: "¿Qué energía es renovable?",
+        opciones: ["Carbón", "Energía Solar", "Petróleo"],
+        correcta: 1
+    },
+    {
+        pregunta: "¿Cuál acción ayuda al ahorro de agua?",
+        opciones: ["Dejar el grifo abierto", "Cerrar el grifo", "Lavar el carro diario"],
+        correcta: 1
+    },
+    {
+        pregunta: "¿Qué color representa el contenedor de vidrio?",
+        opciones: ["Verde", "Rojo", "Negro"],
+        correcta: 0
+    },
+    {
+        pregunta: "¿Qué gas contribuye al calentamiento global?",
+        opciones: ["Oxígeno", "Dióxido de carbono", "Helio"],
+        correcta: 1
+    },
+    {
+        pregunta: "¿Cuál transporte contamina menos?",
+        opciones: ["Bicicleta", "Motocicleta", "Camión"],
+        correcta: 0
+    },
+    {
+        pregunta: "¿Qué significa reciclar?",
+        opciones: ["Botar basura", "Reutilizar materiales", "Quemar plástico"],
+        correcta: 1
+    },
+    {
+        pregunta: "¿Qué aparato ahorra más energía?",
+        opciones: ["Bombilla LED", "Bombilla tradicional", "Veladora"],
+        correcta: 0
+    },
+    {
+        pregunta: "¿Qué debemos hacer con las pilas usadas?",
+        opciones: ["Tirarlas al río", "Reciclarlas correctamente", "Quemarlas"],
+        correcta: 1
+    },
+    {
+        pregunta: "¿Qué ayuda más al planeta?",
+        opciones: ["Sembrar árboles", "Usar más plástico", "Desperdiciar agua"],
+        correcta: 0
+    }
+];
+
+let indice = 0;
+let puntos = 0;
+
+function cargarPregunta() {
+    document.getElementById("pregunta").innerText = preguntas[indice].pregunta;
+
+    let botones = document.querySelectorAll("#opciones button");
+
+    for (let i = 0; i < botones.length; i++) {
+        botones[i].innerText = preguntas[indice].opciones[i];
+        botones[i].disabled = false;
+    }
+
+    document.getElementById("resultado").innerText = "";
+    document.getElementById("siguiente").style.display = "none";
+}
+
+function verificarRespuesta(opcion) {
+    let resultado = document.getElementById("resultado");
+    let botones = document.querySelectorAll("#opciones button");
+
+    if (opcion === preguntas[indice].correcta) {
+        resultado.innerText = "✅ ¡Correcto!";
+        resultado.style.color = "green";
+        puntos++;
+    } else {
+        resultado.innerText = "❌ Incorrecto";
+        resultado.style.color = "red";
+    }
+
+    for (let i = 0; i < botones.length; i++) {
+        botones[i].disabled = true;
+    }
+
+    document.getElementById("siguiente").style.display = "inline-block";
+}
+
+function siguientePregunta() {
+    indice++;
+
+    if (indice < preguntas.length) {
+        cargarPregunta();
+    } else {
+        document.querySelector(".quiz-box").style.display = "none";
+
+        document.getElementById("final").innerHTML = `
+            🎉 ¡Escape Room completado!<br><br>
+            Tu puntuación fue: <strong>${puntos} / ${preguntas.length}</strong>
+            <br><br>
+            <button onclick="reiniciarJuego()" id="reiniciar">
+                 Volver al inicio
+            </button>
+        `;
+    }
+}
+
+function reiniciarJuego() {
+    window.location.href = "index.html";
+}
+
+cargarPregunta();
+</script>
+
+</body>
+</html>
